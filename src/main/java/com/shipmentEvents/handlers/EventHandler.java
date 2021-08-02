@@ -16,8 +16,8 @@ import com.amazonaws.services.lambda.runtime.events.ScheduledEvent;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest.KeyVersion;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.shipmentEvents.util.Constants;
 
@@ -97,7 +97,7 @@ public class EventHandler implements RequestHandler<ScheduledEvent, String> {
         final AmazonS3 s3Client = EventHandler.getS3Client();
         logger.log("Processing Bucket: " + bucketName);
 
-        ObjectListing files = s3Client.listObjects(bucketName);  //pointless change
+        ListObjectsV2Result files = s3Client.listObjectsV2(bucketName);  //pointless change
         List<KeyVersion> filesProcessed = new ArrayList<DeleteObjectsRequest.KeyVersion>();
 
         for (Iterator<?> iterator = files.getObjectSummaries().iterator(); iterator.hasNext(); ) {
